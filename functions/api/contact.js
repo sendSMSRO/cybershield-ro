@@ -135,54 +135,29 @@ export async function onRequestPost(context) {
         .run();
     }
 
-    // ── Send Email via Resend ──
-    if (env.RESEND_API_KEY) {
-      await fetch("https://api.resend.com/emails", {
+    // ── Send Email via Brevo ──
+    if (env.BREVO_API_KEY) {
+      await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${env.RESEND_API_KEY}`,
+          "api-key": env.BREVO_API_KEY,
         },
         body: JSON.stringify({
-          from: "CyberShield Contact <noreply@cybershield.ro>",
-          to: ["contact@cybershield.ro"],
+          sender: { name: "CyberShield Contact", email: "noreply@cybershield.ro" },
+          to: [{ email: "lb@cybershield.ro", name: "Liviu Baltoi" }],
+          replyTo: { email: email, name: name },
           subject: `[Contact] ${service || "General"} — ${name}`,
-          html: `<h2>New Contact Submission</h2>
+          htmlContent: `<h2>Mesaj nou din formularul de contact</h2>
             <table style="border-collapse:collapse;width:100%;max-width:600px">
-              <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold;width:120px">Name</td><td style="padding:8px;border:1px solid #ddd">${name}</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold;width:120px">Nume</td><td style="padding:8px;border:1px solid #ddd">${name}</td></tr>
               <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">${email}</td></tr>
-              <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">Company</td><td style="padding:8px;border:1px solid #ddd">${company || "—"}</td></tr>
-              <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">Service</td><td style="padding:8px;border:1px solid #ddd">${service || "—"}</td></tr>
-              <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">Message</td><td style="padding:8px;border:1px solid #ddd">${message}</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">Companie</td><td style="padding:8px;border:1px solid #ddd">${company || "—"}</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">Serviciu</td><td style="padding:8px;border:1px solid #ddd">${service || "—"}</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">Mesaj</td><td style="padding:8px;border:1px solid #ddd">${message}</td></tr>
               <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">IP</td><td style="padding:8px;border:1px solid #ddd">${ip}</td></tr>
-              <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">Time (UTC)</td><td style="padding:8px;border:1px solid #ddd">${new Date().toISOString()}</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">Data (UTC)</td><td style="padding:8px;border:1px solid #ddd">${new Date().toISOString()}</td></tr>
             </table>`,
         }),
       });
     }
-
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers,
-    });
-  } catch (err) {
-    console.error("Contact API error:", err);
-    return new Response(
-      JSON.stringify({ error: "server_error" }),
-      { status: 500, headers }
-    );
-  }
-}
-
-// CORS preflight handler
-export async function onRequestOptions(context) {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "https://cybershield.ro",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Max-Age": "86400",
-    },
-  });
-}
