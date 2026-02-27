@@ -4,26 +4,14 @@
 
 name = "cybershield-ro"
 compatibility_date = "2025-01-01"
+pages_build_output_dir = "dist"
 
-# Cloudflare Pages uses this for Functions config
-# Workers/Functions environment variables are set in Dashboard
+# KV și D1 se configurează după primul deploy reușit
+# [[kv_namespaces]]
+# binding = "KV_STORE"
+# id = "YOUR_KV_NAMESPACE_ID"
 
-# KV Namespace for rate limiting
-# Create: wrangler kv:namespace create KV_STORE
-# Then replace YOUR_KV_NAMESPACE_ID below
-[[kv_namespaces]]
-binding = "KV_STORE"
-id = "YOUR_KV_NAMESPACE_ID"
-
-# D1 Database for contact submissions
-# Create: wrangler d1 create cybershield-contacts
-# Then replace YOUR_D1_DATABASE_ID below
-[[d1_databases]]
-binding = "DB"
-database_name = "cybershield-contacts"
-database_id = "YOUR_D1_DATABASE_ID"
-
-# Environment variables (secrets are set via Dashboard or wrangler secret put)
-# Required secrets:
-#   TURNSTILE_SECRET_KEY — from Cloudflare Turnstile dashboard
-#   RESEND_API_KEY       — from resend.com/api-keys
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "cybershield-contacts"
+# database_id = "YOUR_D1_DATABASE_ID"
