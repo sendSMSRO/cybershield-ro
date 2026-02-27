@@ -5,22 +5,15 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'dist',
-    sourcemap: false,       // Nu expune codul sursă în producție
+    sourcemap: false,
     minify: 'esbuild',
-    terserOptions: {
-      compress: {
-        drop_console: true,  // Elimină console.log din producție
-        drop_debugger: true,
-      },
-    },
     rollupOptions: {
       output: {
-        manualChunks: undefined, // Single bundle pentru SPA simplu
+        manualChunks: undefined,
       },
     },
   },
   server: {
     port: 3000,
     strictPort: true,
-  },
-});
+    
