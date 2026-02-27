@@ -137,7 +137,7 @@ export async function onRequestPost(context) {
 
     // ── Send Email via Brevo ──
     if (env.BREVO_API_KEY) {
-      await fetch("https://api.brevo.com/v3/smtp/email", {
+      const brevoRes = await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -160,4 +160,6 @@ export async function onRequestPost(context) {
             </table>`,
         }),
       });
+      const brevoBody = await brevoRes.json();
+      console.log("Brevo status:", brevoRes.status, JSON.stringify(brevoBody));
     }
