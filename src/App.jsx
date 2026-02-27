@@ -168,7 +168,7 @@ const T = {
       ],
     },
     contact: {
-      title: "CONTACTAȚI-NĂ",
+      title: "CONTACTAȚI-NE",
       subtitle: "Să protejăm împreună afacerea dvs.",
       fName: "Nume complet", fEmail: "Email profesional", fCompany: "Compania", fService: "Serviciu de interes",
       fMsg: "Mesajul dvs.", fSubmit: "Trimite mesajul securizat", fSending: "Se trimite...",
@@ -313,7 +313,7 @@ function SecureForm({ c, lang }) {
           // ║  REPLACE WITH YOUR ACTUAL TURNSTILE SITE KEY    ║
           // ║  Get it from: Cloudflare Dashboard → Turnstile  ║
           // ╚══════════════════════════════════════════════════╝
-          sitekey: "0x4XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          sitekey: "0x4AAAAAACjVv_s_CD_Li4o4",
           theme: "dark",
           callback: (token) => { setTurnstileToken(token); setSt(null); },
           "expired-callback": () => setTurnstileToken(null),
