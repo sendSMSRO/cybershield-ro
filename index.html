@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CSP - Client-side fallback (server headers take precedence) -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; frame-src https://challenges.cloudflare.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self';" />
+
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <!-- SEO -->
+  <title>BASE64 CYBERSHIELD — Securitate Cibernetică Enterprise | Penetration Testing | NIS2 | DORA</title>
+  <meta name="description" content="BASE64 CYBERSHIELD — Servicii profesionale de securitate cibernetică: penetration testing, cyber threat intelligence, conformitate NIS2/DORA/GDPR, securitate telecomunicații TETRA/5G. București, România." />
+  <meta name="keywords" content="penetration testing, cybersecurity, NIS2, DORA, GDPR, CTI, dark web, TETRA, 5G security, red team, OSCP, București" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="BASE64 CYBERSHIELD — Enterprise Cybersecurity" />
+  <meta property="og:description" content="Penetration testing, CTI, NIS2/DORA/GDPR compliance and advanced cybersecurity services." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cybershield.ro" />
+  <meta property="og:locale" content="ro_RO" />
+  <meta property="og:locale:alternate" content="en_US" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Cloudflare Turnstile CAPTCHA -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

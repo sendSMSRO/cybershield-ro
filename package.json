@@ -1,0 +1,22 @@
+{
+  "name": "cybershield-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BASE64 CYBERSHIELD - Enterprise Cybersecurity Services",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && wrangler pages deploy dist",
+    "deploy:preview": "npm run build && wrangler pages deploy dist --branch preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.0",
+    "wrangler": "^4.69.0"
+  }
+}
