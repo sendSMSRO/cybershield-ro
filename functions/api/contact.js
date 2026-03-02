@@ -1,19 +1,5 @@
-/**
- * Cloudflare Pages Function — Secure Contact Form API
- * Location: functions/api/contact.js
- *
- * Security features:
- * - Cloudflare Turnstile CAPTCHA verification
- * - Server-side input sanitization (defense in depth)
- * - Rate limiting per IP via KV Store
- * - Parameterized D1 queries (SQL injection prevention)
- * - CORS restricted to cybershield.ro
- * - Input length limits enforced
- * - Email format validation
- */
-
 const RATE_LIMIT = 5;
-const RATE_WINDOW = 300; // 5 minutes in seconds
+const RATE_WINDOW = 300;
 
 function sanitize(str) {
   if (typeof str !== "string") return "";
@@ -60,7 +46,6 @@ export async function onRequestPost(context) {
   try {
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";
 
-    // ── Rate Limiting ──
     if (env.KV_STORE) {
       const key = `rl:${ip}`;
       const current = parseInt((await env.KV_STORE.get(key)) || "0");
@@ -73,10 +58,8 @@ export async function onRequestPost(context) {
       await env.KV_STORE.put(key, String(current + 1), { expirationTtl: RATE_WINDOW });
     }
 
-    // ── Parse Request ──
     const body = await request.json();
 
-    // ── Verify Turnstile CAPTCHA ──
     const turnstileResponse = body["cf-turnstile-response"];
     if (!turnstileResponse) {
       return new Response(
@@ -105,7 +88,6 @@ export async function onRequestPost(context) {
       );
     }
 
-    // ── Sanitize & Validate ──
     const name = sanitize(body.name).slice(0, 100);
     const email = sanitize(body.email).slice(0, 254);
     const company = sanitize(body.company || "").slice(0, 150);
@@ -125,7 +107,6 @@ export async function onRequestPost(context) {
       );
     }
 
-    // ── Store in D1 (parameterized — SQL injection safe) ──
     if (env.DB) {
       await env.DB.prepare(
         `INSERT INTO contact_submissions (name, email, company, service, message, ip, created_at) 
@@ -135,7 +116,6 @@ export async function onRequestPost(context) {
         .run();
     }
 
-    // ── Send Email via Brevo ──
     if (env.BREVO_API_KEY) {
       const brevoRes = await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
@@ -163,3 +143,28 @@ export async function onRequestPost(context) {
       const brevoBody = await brevoRes.json();
       console.log("Brevo status:", brevoRes.status, JSON.stringify(brevoBody));
     }
+
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers,
+    });
+  } catch (err) {
+    console.error("Contact API error:", err);
+    return new Response(
+      JSON.stringify({ error: "server_error" }),
+      { status: 500, headers }
+    );
+  }
+}
+
+export async function onRequestOptions(context) {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "https://cybershield.ro",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Max-Age": "86400",
+    },
+  });
+}
