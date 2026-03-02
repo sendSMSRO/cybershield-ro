@@ -30,7 +30,12 @@ const ALLOWED_ORIGINS = [
 
 function getCorsHeaders(request) {
   const origin = request.headers.get("Origin") || "";
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : null;
+
+  if (!allowedOrigin) {
+    return { "Content-Type": "application/json" };
+  }
+
   return {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": allowedOrigin,
@@ -158,10 +163,17 @@ export async function onRequestPost(context) {
 }
 
 export async function onRequestOptions(context) {
+  const origin = context.request.headers.get("Origin") || "";
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : null;
+
+  if (!allowedOrigin) {
+    return new Response(null, { status: 403 });
+  }
+
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "https://cybershield.ro",
+      "Access-Control-Allow-Origin": allowedOrigin,
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Max-Age": "86400",
