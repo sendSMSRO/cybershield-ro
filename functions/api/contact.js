@@ -116,19 +116,19 @@ export async function onRequestPost(context) {
         .run();
     }
 
-    if (env.BREVO_API_KEY) {
-      const brevoRes = await fetch("https://api.brevo.com/v3/smtp/email", {
+    if (env.RESEND_API_KEY) {
+      const resendRes = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "api-key": env.BREVO_API_KEY,
+          "Authorization": `Bearer ${env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-          sender: { name: "CyberShield Contact", email: "noreply@cybershield.ro" },
-          to: [{ email: "lb@cybershield.ro", name: "Liviu Baltoi" }],
-          replyTo: { email: email, name: name },
+          from: "CyberShield Contact <noreply@cybershield.ro>",
+          to: ["lb@cybershield.ro"],
+          reply_to: email,
           subject: `[Contact] ${service || "General"} — ${name}`,
-          htmlContent: `<h2>Mesaj nou din formularul de contact</h2>
+          html: `<h2>Mesaj nou din formularul de contact</h2>
             <table style="border-collapse:collapse;width:100%;max-width:600px">
               <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold;width:120px">Nume</td><td style="padding:8px;border:1px solid #ddd">${name}</td></tr>
               <tr><td style="padding:8px;border:1px solid #ddd;background:#f5f5f5;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">${email}</td></tr>
@@ -140,8 +140,8 @@ export async function onRequestPost(context) {
             </table>`,
         }),
       });
-      const brevoBody = await brevoRes.json();
-      console.log("Brevo status:", brevoRes.status, JSON.stringify(brevoBody));
+      const resendBody = await resendRes.json();
+      console.log("Resend status:", resendRes.status, JSON.stringify(resendBody));
     }
 
     return new Response(JSON.stringify({ success: true }), {
