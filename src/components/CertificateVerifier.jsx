@@ -123,7 +123,7 @@ function BadgeRow({ label, value, accent }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function CertificateVerifier({ lang = "RO" }) {
-  const t = T[lang];
+  const t = T[lang.toUpperCase()];
   const [input,  setInput]  = useState("");
   const [state,  setState]  = useState("idle"); // idle|loading|valid|expired|notfound|invalid
   const [result, setResult] = useState(null);
