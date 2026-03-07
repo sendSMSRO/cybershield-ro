@@ -1,3 +1,8 @@
 name = "cybershield-ro"
 compatibility_date = "2025-01-01"
 pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cybershield-contacts"
+database_id = "f6065ce8-2a89-47e2-b61a-46ed10dee2fc"

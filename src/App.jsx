@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import CertificateVerifier from "./components/CertificateVerifier";
 
 /*
  * ══════════════════════════════════════════════════════════════════
@@ -83,7 +84,7 @@ function validEmail(e) { return typeof e === "string" && e.length <= 254 && EMAI
 // ── Bilingual Content ──────────────────────────────────────────
 const T = {
   ro: {
-    nav: { services: "Servicii", why: "De Ce Noi", team: "Echipa", compliance: "Compliance", cti: "CTI", contact: "Contact" },
+   nav: { services: "Servicii", why: "De Ce Noi", team: "Echipa", compliance: "Compliance", cti: "CTI", verifica: "Verifică Cert.", contact: "Contact" },
     hero: {
       tagline: "SECURITATE CIBERNETICĂ DE NIVEL ENTERPRISE",
       h1_1: "Protejăm afacerea ta.",
@@ -183,7 +184,7 @@ const T = {
     footer: "© 2026 BASE64 CYBERSHIELD S.R.L. Toate drepturile rezervate. CUI: 44611014 | J40/12409/2021",
   },
   en: {
-    nav: { services: "Services", why: "Why Us", team: "Team", compliance: "Compliance", cti: "CTI", contact: "Contact" },
+    nav: { services: "Services", why: "Why Us", team: "Team", compliance: "Compliance", cti: "CTI", verifica: "Verify Cert.", contact: "Contact" },
     hero: {
       tagline: "ENTERPRISE-GRADE CYBERSECURITY",
       h1_1: "We protect your business.",
@@ -643,6 +644,15 @@ export default function CyberShield() {
           </div>
         </div>
       </section>
+
+      {/* CERTIFICATE VERIFIER */}
+      <section id="verifica-certificat" style={{background:"#060E1A",borderTop:"1px solid rgba(0,212,255,0.08)"}}>
+        <div className="section">
+          <CertificateVerifier lang={lang} />
+        </div>
+      </section>
+
+      {/* CONTACT */}
 
       {/* CONTACT — Secure Form Only, No Personal Data */}
       <section id="contact" style={{background:"linear-gradient(180deg,#060E1A,#0A1628)",borderTop:"1px solid rgba(0,212,255,0.1)"}}>
