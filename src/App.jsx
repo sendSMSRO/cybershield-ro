@@ -84,8 +84,7 @@ function validEmail(e) { return typeof e === "string" && e.length <= 254 && EMAI
 // ── Bilingual Content ──────────────────────────────────────────
 const T = {
   ro: {
-   nav: { services: "Servicii", why: "De Ce Noi", team: "Echipa", compliance: "Compliance", cti: "CTI", verifica: "Verifică Cert.", contact: "Contact" },
-    hero: {
+nav: { services: "Servicii", why: "De Ce Noi", team: "Echipa", compliance: "Compliance", cti: "CTI", "verifica-certificat": "Verifică Cert.", contact: "Contact" },    hero: {
       tagline: "SECURITATE CIBERNETICĂ DE NIVEL ENTERPRISE",
       h1_1: "Protejăm afacerea ta.",
       h1_2: "Identificăm amenințările.",
@@ -184,8 +183,7 @@ const T = {
     footer: "© 2026 BASE64 CYBERSHIELD S.R.L. Toate drepturile rezervate. CUI: 44611014 | J40/12409/2021",
   },
   en: {
-    nav: { services: "Services", why: "Why Us", team: "Team", compliance: "Compliance", cti: "CTI", verifica: "Verify Cert.", contact: "Contact" },
-    hero: {
+nav: { services: "Services", why: "Why Us", team: "Team", compliance: "Compliance", cti: "CTI", "verifica-certificat": "Verify Cert.", contact: "Contact" },    hero: {
       tagline: "ENTERPRISE-GRADE CYBERSECURITY",
       h1_1: "We protect your business.",
       h1_2: "We identify threats.",
